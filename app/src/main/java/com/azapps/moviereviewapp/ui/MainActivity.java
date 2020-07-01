@@ -1,6 +1,7 @@
 package com.azapps.moviereviewapp.ui;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -14,7 +15,7 @@ import com.azapps.moviereviewapp.pojo.Results;
 import com.azapps.moviereviewapp.repository.Constant;
 import com.azapps.moviereviewapp.repository.MovieApi;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,14 +25,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private List<Results> dataResults;
     private MovieApi movieApi;
     private MovieAdapter adapter;
     private int pageNumber = 1;
     // test
-    List<Results> list = new ArrayList<>();
+    List<Results> movieList ;
 
 
     @Override
@@ -45,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
         getResultsFromRetrofit(pageNumber);
 
 
+    }
+
+    private void addClickEvent() {
+        adapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
+            @Override
+            public void onMovieClick(Results result) {
+                Toast.makeText(MainActivity.this, result.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void buildRetrofit() {
@@ -76,13 +86,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerView(List<Results> movies) {
-        list.addAll(movies);
+        movieList = movies;
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new MovieAdapter(this);
-        adapter.submitList(list);
+        adapter.submitList(movieList);
+        addClickEvent();
         recyclerView.setAdapter(adapter);
     }
+
 }
