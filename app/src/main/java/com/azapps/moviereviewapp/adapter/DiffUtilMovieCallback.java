@@ -1,6 +1,5 @@
 package com.azapps.moviereviewapp.adapter;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.azapps.moviereviewapp.pojo.Results;

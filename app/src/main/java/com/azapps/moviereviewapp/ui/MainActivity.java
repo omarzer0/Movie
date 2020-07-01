@@ -16,7 +16,6 @@ import com.azapps.moviereviewapp.pojo.Results;
 import com.azapps.moviereviewapp.repository.Constant;
 import com.azapps.moviereviewapp.repository.MovieApi;
 
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,14 +25,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity implements OnMovieClickListener{
+public class MainActivity extends AppCompatActivity implements OnMovieClickListener {
     private RecyclerView recyclerView;
     private List<Results> dataResults;
     private MovieApi movieApi;
     private MovieAdapter adapter;
     private int pageNumber = 1;
-    // test
-    List<Results> movieList ;
+    List<Results> movieList;
 
 
     @Override
@@ -47,15 +45,6 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
         getResultsFromRetrofit(pageNumber);
 
 
-    }
-
-    private void addClickEvent() {
-        adapter.setOnMovieClickListener(new OnMovieClickListener() {
-            @Override
-            public void onMovieClick(int position) {
-                Toast.makeText(MainActivity.this, movieList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void buildRetrofit() {
@@ -81,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this, "Internet error please check your connection", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -92,14 +81,13 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
         recyclerView.setLayoutManager(manager);
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new MovieAdapter(this,this);
+        adapter = new MovieAdapter(this, this);
         adapter.submitList(movieList);
-        addClickEvent();
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onMovieClick(int position) {
-
+        Toast.makeText(MainActivity.this, movieList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

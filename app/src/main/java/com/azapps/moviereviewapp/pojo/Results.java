@@ -21,6 +21,12 @@ public class Results {
     private List<Integer> genre_ids;
 
     private String title;
+    private double vote_average;
+
+    private String overview;
+
+    private String release_date;
+
 
     public Integer getVote_count() {
         return vote_count;
@@ -31,7 +37,7 @@ public class Results {
     }
 
     public String getPoster_path() {
-        return poster_path;
+        return "https://image.tmdb.org/t/p/w500/" + poster_path;
     }
 
     public Integer getId() {
@@ -62,8 +68,8 @@ public class Results {
         return title;
     }
 
-    public double getVote_average() {
-        return vote_average;
+    public String getVote_average() {
+        return String.valueOf(vote_average);
     }
 
     public String getOverview() {
@@ -73,12 +79,6 @@ public class Results {
     public String getRelease_date() {
         return release_date;
     }
-
-    private double vote_average;
-
-    private String overview;
-
-    private String release_date;
 
 
 }
