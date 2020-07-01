@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.azapps.moviereviewapp.R;
-import com.azapps.moviereviewapp.adapter.EndlessRecyclerViewScrollListener;
-import com.azapps.moviereviewapp.adapter.MovieAdapter;
 import com.azapps.moviereviewapp.pojo.Movie;
 import com.azapps.moviereviewapp.pojo.Results;
 import com.azapps.moviereviewapp.repository.Constant;
@@ -32,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Results> dataResults;
     private MovieApi movieApi;
-    private MovieAdapter adapter;
     private int pageNumber = 1;
     // test
-    private EndlessRecyclerViewScrollListener listener;
     List<Results> list = new ArrayList<>();
 
 
@@ -77,22 +73,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerView(List<Results> movies) {
-        list.addAll(movies);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.hasFixedSize();
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
-        listener = new EndlessRecyclerViewScrollListener(manager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                pageNumber++;
-                getResultsFromRetrofit(pageNumber);
-            }
-        };
-        recyclerView.addOnScrollListener(listener);
-        adapter = new MovieAdapter(this);
-        adapter.submitList(list);
-        recyclerView.setAdapter(adapter);
+        //TODO: PUT YOUR ADAPTER CODE AND BUILD THE RECYCLER VIEW
+//        list.addAll(movies);
+//        LinearLayoutManager manager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(manager);
+//        recyclerView.hasFixedSize();
+////        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setItemAnimator(new SlideInUpAnimator());
+//        listener = new EndlessRecyclerViewScrollListener(manager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+//                pageNumber++;
+//                getResultsFromRetrofit(pageNumber);
+//            }
+//        };
+//        recyclerView.addOnScrollListener(listener);
+//        adapter = new MovieAdapter(this);
+//        adapter.submitList(list);
+//        recyclerView.setAdapter(adapter);
     }
 }
