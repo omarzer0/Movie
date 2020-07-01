@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerView(List<Results> movies) {
+
         //TODO: PUT YOUR ADAPTER CODE AND BUILD THE RECYCLER VIEW
 //        list.addAll(movies);
 //        LinearLayoutManager manager = new LinearLayoutManager(this);
