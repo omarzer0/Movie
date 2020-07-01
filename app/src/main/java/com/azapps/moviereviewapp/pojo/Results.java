@@ -5,44 +5,58 @@ import java.util.List;
 public class Results {
 
 
+    private Integer vote_count;
+    private boolean video;
     private String poster_path;
+    private Integer id;
 
+    private boolean adult;
+
+    private String backdrop_path;
+
+    private String original_language;
+
+    private String original_title;
+
+    private List<Integer> genre_ids;
 
     private String title;
 
-    private double vote_average;
-
-
-    private String release_date;
-
-
-    public Results(String poster_path, String title, double vote_average, String release_date) {
-        this.poster_path = poster_path;
-        this.title = title;
-        this.vote_average = vote_average;
-        this.release_date = release_date;
+    public Integer getVote_count() {
+        return vote_count;
     }
 
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    public boolean isVideo() {
+        return video;
     }
 
     public String getPoster_path() {
         return poster_path;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public String getOriginal_language() {
+        return original_language;
+    }
+
+    public String getOriginal_title() {
+        return original_title;
+    }
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
 
     public String getTitle() {
         return title;
@@ -52,8 +66,19 @@ public class Results {
         return vote_average;
     }
 
+    public String getOverview() {
+        return overview;
+    }
+
     public String getRelease_date() {
         return release_date;
     }
+
+    private double vote_average;
+
+    private String overview;
+
+    private String release_date;
+
 
 }

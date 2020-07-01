@@ -5,60 +5,57 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 
 import com.azapps.moviereviewapp.R;
 import com.azapps.moviereviewapp.pojo.Results;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.util.List;
+import java.net.URI;
 
+import retrofit2.http.Url;
 
+import static com.azapps.moviereviewapp.repository.Constant.BASE_URL;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    private LayoutInflater mInflater;
-    private List<Results> results;
+public class MovieAdapter extends ListAdapter<Results, MovieViewHolder> {
+    private Context context;
 
-    public MovieAdapter(Context context, List<Results> results) {
-        mInflater = LayoutInflater.from(context);
-        this.results = results;
+    public MovieAdapter(Context context) {
+        super(diffCallback);
+        this.context = context;
     }
+
+    private static final DiffUtil.ItemCallback<Results> diffCallback = new DiffUtil.ItemCallback<Results>() {
+        @Override
+            public boolean areItemsTheSame(Results oldItem, Results newItem) {
+                return oldItem.getId() == newItem.getId();
+            }
+            @Override
+            public boolean areContentsTheSame(Results oldItem, Results newItem) {
+                return (oldItem.getTitle().equals(newItem.getTitle()));
+            }
+        };
 
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.movie_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.movie_item, parent, false);
         return new MovieViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Results currentResult = results.get(position);
-        holder.title.setText(currentResult.getTitle());
-        holder.rating.setText(String.valueOf(currentResult.getVote_average()));
-        holder.releaseDate.setText(currentResult.getRelease_date());
-        holder.imageView.setImageURI(Uri.parse(currentResult.getPoster_path()));
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return results.size();
-    }
-
-    static class MovieViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
-        private TextView title, rating, releaseDate;
-
-        public MovieViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.movie_img_id);
-            title = itemView.findViewById(R.id.movie_title);
-            rating = itemView.findViewById(R.id.rating_number);
-            releaseDate = itemView.findViewById(R.id.release_date);
-        }
+        Results currentMovie = getItem(position);
+        Uri image_url =Uri.parse("https://image.tmdb.org/t/p/w500/"+currentMovie.getPoster_path());
+        Glide.with(context).load(image_url).into(holder.movieImageView);
+//        holder.movieImageView.setImageURI(Uri.parse());
+        holder.releaseDateTV.setText(currentMovie.getRelease_date());
+        holder.titleTV.setText(currentMovie.getTitle());
+        holder.ratingTv.setText(String.valueOf(currentMovie.getVote_average()));
     }
 }
