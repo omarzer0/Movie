@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.azapps.moviereviewapp.R;
 import com.azapps.moviereviewapp.adapter.MovieAdapter;
+import com.azapps.moviereviewapp.adapter.OnMovieClickListener;
 import com.azapps.moviereviewapp.pojo.Movie;
 import com.azapps.moviereviewapp.pojo.Results;
 import com.azapps.moviereviewapp.repository.Constant;
@@ -25,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements OnMovieClickListener{
     private RecyclerView recyclerView;
     private List<Results> dataResults;
     private MovieApi movieApi;
@@ -49,10 +50,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void addClickEvent() {
-        adapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
+        adapter.setOnMovieClickListener(new OnMovieClickListener() {
             @Override
-            public void onMovieClick(Results result) {
-                Toast.makeText(MainActivity.this, result.getTitle(), Toast.LENGTH_SHORT).show();
+            public void onMovieClick(int position) {
+                Toast.makeText(MainActivity.this, movieList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -91,10 +92,14 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(manager);
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new MovieAdapter(this);
+        adapter = new MovieAdapter(this,this);
         adapter.submitList(movieList);
         addClickEvent();
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onMovieClick(int position) {
+
+    }
 }
