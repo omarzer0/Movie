@@ -1,16 +1,13 @@
 package com.azapps.moviereviewapp.ui;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.azapps.moviereviewapp.R;
-import com.azapps.moviereviewapp.adapter.EndlessRecyclerViewScrollListener;
 import com.azapps.moviereviewapp.adapter.MovieAdapter;
 import com.azapps.moviereviewapp.pojo.Movie;
 import com.azapps.moviereviewapp.pojo.Results;
@@ -20,7 +17,6 @@ import com.azapps.moviereviewapp.repository.MovieApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter adapter;
     private int pageNumber = 1;
     // test
-    private EndlessRecyclerViewScrollListener listener;
     List<Results> list = new ArrayList<>();
 
 
@@ -45,16 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycler);
 
+        buildRetrofit();
+
+        getResultsFromRetrofit(pageNumber);
+
+
+    }
+
+    private void buildRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         movieApi = retrofit.create(MovieApi.class);
-
-        getResultsFromRetrofit(pageNumber);
-
-
     }
 
     private void getResultsFromRetrofit(int pageId) {
@@ -81,16 +80,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.hasFixedSize();
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
-        listener = new EndlessRecyclerViewScrollListener(manager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                pageNumber++;
-                getResultsFromRetrofit(pageNumber);
-            }
-        };
-        recyclerView.addOnScrollListener(listener);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new MovieAdapter(this);
         adapter.submitList(list);
         recyclerView.setAdapter(adapter);
